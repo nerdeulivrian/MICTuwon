@@ -1,0 +1,20 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ReadSessionsTable",
+      "Effect": "Allow",
+      "Action": [
+        "dynamodb:GetItem",
+        "dynamodb:BatchGetItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:DescribeTable"
+      ],
+      "Resource": [
+        "arn:aws:dynamodb:ap-southeast-1:174508893991:table/tuwon-sessions",
+        "arn:aws:dynamodb:ap-southeast-1:174508893991:table/tuwon-sessions/index/*"
+      ]
+    }
+  ]
+}

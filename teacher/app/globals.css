@@ -1,0 +1,87 @@
+/* ============================================================================
+   tuwon teacher — design tokens
+   Mirrors mobile/src/theme/index.ts and the `color-*` variables in design.pen,
+   so the web teacher app shares the student app's Duolingo-style look (Nunito,
+   orange primary, raised drop-shadow controls).
+   ========================================================================== */
+:root {
+  /* Base */
+  --bg: #ffffff;
+  --surface: #f7f7f7;
+  --border: #e5e5e5;
+
+  /* Text */
+  --text: #4b4b4b;
+  --text-secondary: #777777;
+  --text-muted: #afafaf;
+
+  /* Primary (orange) */
+  --primary: #ff9600;
+  --primary-bg: #ffead1;
+  --primary-dark: #e08600;
+
+  /* Correct (green) */
+  --correct: #58cc02;
+  --correct-bg: #d7ffb8;
+  --correct-dark: #46a302;
+  --correct-text: #58a700;
+
+  /* Incorrect / red */
+  --red: #ff4b4b;
+  --red-bg: #ffdfe0;
+  --red-dark: #ea2b2b;
+
+  /* Accents */
+  --blue: #1cb0f6;
+  --blue-bg: #ddf4ff;
+  --blue-dark: #1899d6;
+  --yellow: #ffc800;
+  --yellow-bg: #fff1c2;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+
+  --font-main: var(--font-nunito), "Nunito", system-ui, -apple-system, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-main);
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, p { margin: 0; }
+button { font-family: inherit; cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+
+/* Raised drop-shadow button (design.pen CTA Button: hard 4px lip, no blur). */
+.cta {
+  appearance: none;
+  border: none;
+  border-radius: var(--radius-lg);
+  background: var(--primary);
+  color: #fff;
+  font-weight: 800;
+  font-size: 17px;
+  letter-spacing: 0.4px;
+  padding: 14px 24px;
+  box-shadow: 0 4px 0 var(--primary-dark);
+  transition: transform 0.04s ease, box-shadow 0.04s ease;
+}
+.cta:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--primary-dark); }
+.cta:disabled { opacity: 0.5; cursor: default; }
+
+.cta--neutral { background: var(--surface); color: var(--text); box-shadow: 0 4px 0 var(--border); }
+.cta--neutral:active { box-shadow: 0 1px 0 var(--border); }

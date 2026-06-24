@@ -1,0 +1,77 @@
+/* T00 Fake Teacher Login — brand panel (left) + login panel (right). */
+.screen { display: flex; min-height: 100vh; }
+
+/* Brand panel */
+.brand {
+  width: 560px;
+  flex: none;
+  background: var(--primary);
+  color: #fff;
+  padding: 56px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.brandTop { display: flex; align-items: center; gap: 12px; }
+.mark {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: #fff;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 3px 0 var(--primary-dark);
+}
+.markImg { width: 100%; height: 100%; object-fit: cover; display: block; }
+.wordmark { font-size: 26px; font-weight: 800; color: #fff; }
+.hero { display: flex; flex-direction: column; gap: 20px; max-width: 440px; }
+.headline { font-size: 44px; font-weight: 800; line-height: 1.15; color: #fff; }
+.subhead { font-size: 18px; font-weight: 700; line-height: 1.5; color: rgba(255, 255, 255, 0.9); }
+.footer { font-size: 14px; font-weight: 700; color: rgba(255, 255, 255, 0.7); }
+
+/* Login panel */
+.panel {
+  flex: 1;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 56px;
+}
+.card {
+  width: 420px;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+.heading { display: flex; flex-direction: column; align-items: center; gap: 10px; width: 100%; }
+.title { font-size: 30px; font-weight: 800; color: var(--text); }
+.sub { font-size: 16px; font-weight: 700; color: var(--text-secondary); text-align: center; }
+
+.google {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: #fff;
+  border: 2px solid var(--border);
+  border-radius: 16px;
+  padding: 16px 20px;
+  box-shadow: 0 3px 0 var(--border);
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--text);
+  transition: transform 0.04s ease, box-shadow 0.04s ease;
+}
+.google:hover { background: #fafafa; }
+.google:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--border); }
+
+.legal { font-size: 13px; font-weight: 700; color: var(--text-muted); text-align: center; line-height: 1.5; }
+
+@media (max-width: 880px) {
+  .brand { display: none; }
+}

@@ -1,0 +1,29 @@
+# Local, machine-specific Claude settings (permissions allow-list etc.)
+.claude/settings.local.json
+
+# Dependencies
+node_modules/
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+
+# Build output
+dist/
+build/
+.next/
+.expo/
+
+# OS / editor
+.DS_Store
+*.log
+
+# Generated DynamoDB seed (regenerate from the app mocks via infra/aws/export-seed.mjs)
+infra/aws/seed/
+
+# Pipeline-generated media (audio/alignment/images) — regenerable, not source
+infra/pipeline/out/
+
+# Android build artifact — distributed via GitHub Releases, not tracked in repo
+*.apk

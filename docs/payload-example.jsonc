@@ -1,0 +1,122 @@
+// ============================================================================
+// PAYLOAD REFERENCE EXAMPLE
+// ----------------------------------------------------------------------------
+// The payload is the CONTRACT between the teacher platform (which generates it)
+// and the student platform (which consumes/plays it).
+//
+// Rules of thumb:
+//   - Everything heavy (images, audio) is a CDN/S3 URL.
+//   - The payload itself stays lightweight: structure + text + URLs.
+//   - The player walks `blocks` top-to-bottom; each block is self-describing
+//     via its `type` ("slide" | "question").
+//
+// Every session is a single-attempt, graded QUIZ (the MVP has no other mode).
+// This example shows all three activity formats.
+// ============================================================================
+{
+  // ── TOP-LEVEL METADATA ────────────────────────────────────────────────────
+  "sessionId": "abc123",
+  "title": "Introduction to Photosynthesis",
+  "createdBy": "Ms. Rivera",         // shown on intro + end screen
+  "estimatedMinutes": 5,             // shown on intro screen
+  "summary": "In this session you learned what photosynthesis is, the role of sunlight, and the inputs and outputs of the process.", // intro description line
+  "config": {
+    "voice": "Joanna",
+    "language": "en-US"
+  },
+
+  // ── SHARED ASSETS (referenced, populated from one backend constant) ─────────
+  // Pre-made true/false option clips reused across ALL sessions; never regenerated.
+  "sharedAssets": {
+    "trueAudio":  "https://cdn.app.com/shared/true.mp3",
+    "falseAudio": "https://cdn.app.com/shared/false.mp3"
+  },
+
+  // ── THE ORDERED EXPERIENCE ──────────────────────────────────────────────────
+  "blocks": [
+
+    // ===== SLIDE =====
+    // The narration text is shown as a static transcript while the audio plays.
+    {
+      "type": "slide",
+      "id": "slide-1",
+      "title": "What is Photosynthesis?",
+      "image": "https://cdn.app.com/abc123/slide-1.png",   // 16:9
+      "narration": {
+        "text": "Plants turn sunlight, water, and carbon dioxide into food and oxygen.",
+        "audio": "https://cdn.app.com/abc123/slide-1.wav"
+      }
+    },
+
+    // ===== ACTIVITY: MULTIPLE CHOICE (single correct answer) =====
+    {
+      "type": "question",
+      "id": "q-1",
+      "format": "multiple-choice",
+      "prompt": "What gas do plants release during photosynthesis?",
+      "promptAudio": "https://cdn.app.com/abc123/q1-prompt.mp3",   // auto-plays on appear
+      "options": [
+        { "id": "a", "text": "Oxygen",         "audio": "https://cdn.app.com/abc123/q1-a.mp3" },
+        { "id": "b", "text": "Carbon dioxide",  "audio": "https://cdn.app.com/abc123/q1-b.mp3" },
+        { "id": "c", "text": "Nitrogen",        "audio": "https://cdn.app.com/abc123/q1-c.mp3" }
+      ],
+      "correctOptionId": "a",
+      "explanations": {
+        "correct":   { "text": "Right! Plants release oxygen as a byproduct.",      "audio": "https://cdn.app.com/abc123/q1-correct.mp3" },
+        "incorrect": { "text": "Not quite — plants take in CO₂ and release oxygen.", "audio": "https://cdn.app.com/abc123/q1-wrong.mp3" }
+        // both `correct` and `incorrect` are required (single attempt, no retry).
+      }
+    },
+
+    // ===== ACTIVITY: TRUE / FALSE =====
+    // No per-option audio — uses sharedAssets.trueAudio / falseAudio.
+    {
+      "type": "question",
+      "id": "q-2",
+      "format": "true-false",
+      "prompt": "Photosynthesis happens only at night.",
+      "promptAudio": "https://cdn.app.com/abc123/q2-prompt.mp3",
+      "correctAnswer": false,
+      "explanations": {
+        "correct":   { "text": "Correct — photosynthesis needs light, so it happens during the day.", "audio": "https://cdn.app.com/abc123/q2-correct.mp3" },
+        "incorrect": { "text": "Actually it needs sunlight, so it happens during the day.",            "audio": "https://cdn.app.com/abc123/q2-wrong.mp3" }
+      }
+    },
+
+    // ===== ACTIVITY: FILL IN THE BLANK (1+ blanks, chip pool, fill left-to-right) =====
+    {
+      "type": "question",
+      "id": "q-3",
+      "format": "fill-blank",
+      "prompt": "Complete the sentence:",
+      "promptAudio": "https://cdn.app.com/abc123/q3-prompt.mp3",
+      "template": "Plants absorb {{b1}} through their roots and {{b2}} through their leaves.",
+      "blanks": [
+        { "id": "b1", "correctChipId": "c1" },
+        { "id": "b2", "correctChipId": "c3" }
+      ],
+      "chips": [
+        { "id": "c1", "text": "water",          "audio": "https://cdn.app.com/abc123/q3-c1.mp3" },
+        { "id": "c2", "text": "oxygen",         "audio": "https://cdn.app.com/abc123/q3-c2.mp3" },
+        { "id": "c3", "text": "carbon dioxide", "audio": "https://cdn.app.com/abc123/q3-c3.mp3" },
+        { "id": "c4", "text": "sugar",          "audio": "https://cdn.app.com/abc123/q3-c4.mp3" }
+      ],
+      "explanations": {
+        "correct":   { "text": "Exactly! Water comes from the roots, CO₂ from the leaves.", "audio": "https://cdn.app.com/abc123/q3-correct.mp3" },
+        "incorrect": { "text": "Roots take in water; leaves take in carbon dioxide.",       "audio": "https://cdn.app.com/abc123/q3-wrong.mp3" }
+      }
+    }
+
+  ]
+}
+
+// ============================================================================
+// QUIZ BEHAVIOR (the only mode)
+// ----------------------------------------------------------------------------
+//  - Single attempt per question: the student picks/fills, the answer LOCKS
+//    (correct or not), the reveal shows the specific explanation, and the
+//    session advances. No retry.
+//  - Both `explanations.correct` AND `explanations.incorrect` are required on
+//    every question (the learner always sees a real explanation).
+//  - Score = 1 point per question; the end screen shows score / accuracy / time.
+// ============================================================================
