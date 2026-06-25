@@ -4,6 +4,12 @@ Turn any topic into a gamified, voiced lesson. A teacher describes what they wan
 to teach, the AI builds an interactive session (slides + questions with narration
 and images), and students play it on their phone — online or fully offline.
 
+Access through - https://teach.tuwon.app
+```
+u: tuwon
+p: mictuwon
+```
+
 Built for the Mindanao Innovation Cup.
 
 ## Prerequisites
